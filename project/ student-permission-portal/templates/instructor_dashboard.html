@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Instructor Dashboard</title>
+<style>
+:root {
+    --bg-image: url('dashboard-bg.jpg'); /* Replace with your own background image */
+    --bg-gradient: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Fallback gradient */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: var(--bg-gradient);
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), var(--bg-image) no-repeat center center fixed;
+    background-size: cover;
+    padding: 50px 0;
+}
+
+.dashboard-container {
+    background: #ffffffdd;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    width: 600px;
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.request-card {
+    background: #f0f4ff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.request-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.request-card p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.request-card a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.request-card a:hover {
+    text-decoration: underline;
+}
+
+form button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+button[name="status"][value="Approved"] {
+    background: linear-gradient(45deg, #4CAF50, #81C784);
+    color: white;
+}
+
+button[name="status"][value="Approved"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(76,175,80,0.4);
+}
+
+button[name="status"][value="Rejected"] {
+    background: linear-gradient(45deg, #F44336, #E57373);
+    color: white;
+}
+
+button[name="status"][value="Rejected"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(244,67,54,0.4);
+}
+
+hr {
+    margin: 20px 0;
+    border: 0;
+    height: 1px;
+    background: #ccc;
+}
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+<h2>Instructor Dashboard</h2>
+
+{% if data %}
+    {% for r in data %}
+    <div class="request-card">
+        <p><strong>Student:</strong> {{ r[1] }}</p>
+        <p><strong>Attendance:</strong> {{ r[4] }}%</p>
+        <p><a href="/uploads/permissions/{{ r[3] }}" target="_blank">View Permission Letter</a></p>
+        <form method="post">
+            <input type="hidden" name="id" value="{{ r[0] }}">
+            <button name="status" value="Approved">Approve</button>
+            <button name="status" value="Rejected">Reject</button>
+        </form>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No leave requests pending.</p>
+{% endif %}
+
+</div>
+</body>
+</html>

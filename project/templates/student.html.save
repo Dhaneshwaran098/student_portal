@@ -1,0 +1,23 @@
+<!DOCTYPE html> <html> <head>
+    <title>Student Dashboard</title>
+</head>
+<body>
+    <h2>Student Leave Request</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        <label>Reason for Leave</label><br>
+        <textarea name="reason" rows="4" cols="50" required></textarea><br><br>
+
+        <label>Upload Permission Letter</label><br>
+        <input type="file" name="letter" required><br><br>
+
+        <button type="submit">Submit Request</button>
+    </form>
+
+    <hr>
+
+    <h3>Status</h3>
+    <p>{{ status }}</p>
+</body>
+</html>
+

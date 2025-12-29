@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Instructor Dashboard</title>
+<style>
+/* Body and general layout */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    min-height: 100vh;
+}
+
+/* Container for dashboard */
+.dashboard-container {
+    max-width: 800px;
+    margin: auto;
+    background: #ffffffdd;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+/* Headings */
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+}
+h3 {
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+/* Card styling */
+.request-card {
+    background: #fff8e1;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 6px solid #ff9800;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.request-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Paragraphs inside cards */
+.request-card p {
+    margin: 6px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Links */
+.request-card a {
+    color: #1e90ff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.request-card a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+form button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+button.approve {
+    background: linear-gradient(45deg, #4CAF50, #81C784);
+    color: white;
+}
+button.approve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(76,175,80,0.4);
+}
+button.reject {
+    background: linear-gradient(45deg, #F44336, #E57373);
+    color: white;
+}
+button.reject:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(244,67,54,0.4);
+}
+
+/* Divider */
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 40px 0 20px 0;
+}
+
+/* Empty message */
+.empty {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <h2>Instructor Dashboard</h2>
+
+    <!-- Pending Requests -->
+    <h3>Pending Requests</h3>
+    {% if pending %}
+        {% for r in pending %}
+        <div class="request-card">
+            <p><strong>Student:</strong> {{ r[1] }}</p>
+            <p><strong>Reason:</strong> {{ r[2] }}</p>
+            <p><strong>Attendance:</strong> {{ r[4] }}%</p>
+            <p><strong>Permission Letter:</strong> <a href="/uploads/permissions/{{ r[3] }}" target="_blank">View / Download</a></p>
+            <form method="post">
+                <input type="hidden" name="id" value="{{ r[0] }}">
+                <button class="approve" name="status" value="Approved">Approve</button>
+                <button class="reject" name="status" value="Rejected">Reject</button>
+            </form>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty">No pending requests.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- History -->
+    <h3>History</h3>
+    {% if history %}
+        {% for r in history %}
+        <div class="request-card" style="border-left-color:#1e90ff; background:#e0f7fa;">
+            <p><strong>Student:</strong> {{ r[1] }}</p>
+            <p><strong>Reason:</strong> {{ r[2] }}</p>
+            <p><strong>Attendance:</strong> {{ r[4] }}%</p>
+            <p><strong>Instructor Status:</strong> {{ r[5] }}</p>
+            <p><strong>HOD Status:</strong> {{ r[6] }}</p>
+            <p><strong>Permission Letter:</strong> <a href="/uploads/permissions/{{ r[3] }}" target="_blank">View / Download</a></p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty">No history available.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

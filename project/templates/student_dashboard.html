@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Dashboard</title>
+<style>
+:root {
+  --bg-gradient: linear-gradient(135deg, #ff9a9e, #fad0c4);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--bg-gradient);
+  padding: 50px 0;
+}
+
+.dashboard-container {
+  background: #ffffffdd;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  width: 500px;
+  text-align: center;
+}
+
+h2 { color: #333; margin-bottom: 30px; }
+form label { font-weight: bold; color: #555; }
+textarea, input[type="file"], input[type="number"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 8px 0 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+textarea:focus, input:focus {
+  border-color: #ff6a00;
+  box-shadow: 0 0 8px rgba(255, 106, 0, 0.3);
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #ff6a00, #ffb347);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #ffb347, #ff6a00);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.request-card {
+  background: #f0f4ff;
+  padding: 15px 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.request-card a {
+  color: #007BFF;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.request-card a:hover {
+  text-decoration: underline;
+}
+
+hr { margin: 30px 0 20px 0; border: 0; height: 1px; background: #ccc; }
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+<h2>Student Leave Request</h2>
+
+<form method="post" enctype="multipart/form-data">
+<label>Reason for Leave</label><br>
+<textarea name="reason" rows="4" placeholder="Enter reason for leave" required></textarea><br>
+
+<label>Attendance (%)</label><br>
+<input type="number" name="attendance" min="0" max="100" placeholder="Enter your attendance %" required><br>
+
+<label>Upload Permission Letter</label><br>
+<input type="file" name="file" required><br>
+
+<button type="submit">Submit Request</button>
+</form>
+
+<hr>
+
+<h3>Your Leave Requests</h3>
+{% if data %}
+  {% for r in data %}
+  <div class="request-card">
+    <p><strong>Reason:</strong> {{ r[2] }}</p>
+    <p><strong>Attendance:</strong> {{ r[4] }}%</p>
+    <p><strong>Instructor Status:</strong> {{ r[5] }}</p>
+    <p><strong>HOD Status:</strong> {{ r[6] }}</p>
+    <p><a href="/uploads/permissions/{{ r[3] }}" target="_blank">View Permission Letter</a></p>
+  </div>
+  {% endfor %}
+{% else %}
+<p>No leave requests submitted yet.</p>
+{% endif %}
+</div>
+</body>
+</html>
